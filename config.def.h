@@ -159,6 +159,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
+	{ MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
+	{ MODKEY,                       XK_Escape, mpdcontrol,     {0} },
 };
 
 /* button definitions */
