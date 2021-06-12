@@ -140,6 +140,10 @@ struct Monitor {
 	int by;               /* bar geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
+	int gappih;           /* horizontal gap between windows */
+	int gappiv;           /* vertical gap between windows */
+	int gappoh;           /* horizontal outer gaps */
+	int gappov;           /* vertical outer gaps */
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
@@ -242,7 +246,6 @@ static void spawn(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
-static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -737,6 +740,10 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
+	m->gappih = gappih;
+	m->gappiv = gappiv;
+	m->gappoh = gappoh;
+	m->gappov = gappov;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -1888,41 +1895,41 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
-void
-tile(Monitor *m)
-{
-	unsigned int i, n, h, mw, my, ty;
-	float mfacts = 0, sfacts = 0;
-	Client *c;
-
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
-		if (n < m->nmaster)
-			mfacts += c->cfact;
-		else
-			sfacts += c->cfact;
-	}
-	if (n == 0)
-		return;
-
-	if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * m->mfact : 0;
-	else
-		mw = m->ww;
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts);
-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-			if (my + HEIGHT(c) < m->wh)
-				my += HEIGHT(c);
-			mfacts -= c->cfact;
-		} else {
-			h = (m->wh - ty) * (c->cfact / sfacts);
-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
-			if (ty + HEIGHT(c) < m->wh)
-				ty += HEIGHT(c);
-			sfacts -= c->cfact;
-		}
-}
+//void
+//tile(Monitor *m)
+//{
+//	unsigned int i, n, h, mw, my, ty;
+//	float mfacts = 0, sfacts = 0;
+//	Client *c;
+//
+//	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+//		if (n < m->nmaster)
+//			mfacts += c->cfact;
+//		else
+//			sfacts += c->cfact;
+//	}
+//	if (n == 0)
+//		return;
+//
+//	if (n > m->nmaster)
+//	mw = m->nmaster ? m->ww * m->mfact : 0;
+//	else
+//		mw = m->ww;
+//	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+//		if (i < m->nmaster) {
+//			h = (m->wh - my) * (c->cfact / mfacts);
+//			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+//			if (my + HEIGHT(c) < m->wh)
+//				my += HEIGHT(c);
+//			mfacts -= c->cfact;
+//		} else {
+//			h = (m->wh - ty) * (c->cfact / sfacts);
+//			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+//			if (ty + HEIGHT(c) < m->wh)
+//				ty += HEIGHT(c);
+//			sfacts -= c->cfact;
+//		}
+//}
 
 void
 togglebar(const Arg *arg)
