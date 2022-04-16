@@ -1,3 +1,16 @@
+# This is almost original software with following additional features, which were added using offical patches.
+
+1. 'Systray'        (system tray)
+2. 'Alpha'          (transparency)
+3. 'C-Facts'        (to resie hight of individual windows, by defalut hight is divided equally)
+4. 'Vanity gaps'    (control space between and around windows with keyboard shortcut instantly)
+5. 'ScratchPad'     (Kind of floating windows which is ported to every workspace/...)
+6. 'Xrdb'           (Xrdb support to change color directly from .Xresources file.)
+7. 'Laucher'        (I don't personally use and its kind of bloat in here, I'll remove this in future updates)
+8. MpdControl       (Control media playback from keyboard shortcut)
+
+--------------------------------------------------------------------
+
 dwm - dynamic window manager
 ============================
 dwm is an extremely fast, small, and dynamic window manager for X.
